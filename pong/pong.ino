@@ -138,8 +138,8 @@ void setup()
   vga.setFont(Font6x8);
 
   if (!four_player) {
-      eliminated[2] = 1;
-      eliminated[3] = 2;
+      eliminated[2] = true;
+      eliminated[3] = true;
   }
   
   //TODO for Natasha:
@@ -160,7 +160,10 @@ void loop()
   for (int i = 0; i < 4; i++) {
     player_dist[i] = read_distance(i + 1);
   }
+
+  
   float smooth_player_dist[] = average_smoothing(player_dist);
-  draw_paddles(smooth_player_dist);
+  draw_paddles(convert_distance(smooth_player_dist), eliminated);
+  
   vga.show();
 }
