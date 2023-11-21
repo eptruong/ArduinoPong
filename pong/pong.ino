@@ -99,10 +99,6 @@ void draw_paddles(int paddle_coord[], boolean eliminated[]) {
     
 }
 
-void draw_ball() {
-
-}
-
 int num_index = 10;
 int smoothing_index[4] = {0};
 float distance_readings[4][num_index];
@@ -164,6 +160,11 @@ void loop()
   
   float smooth_player_dist[] = average_smoothing(player_dist);
   draw_paddles(convert_distance(smooth_player_dist), eliminated);
+
+  if (ball coord passes border)
+  else if (ball coord touches paddle)
+  
+  vga.fillCircle(x + 100, y + 20, 20, vga.RGB(255, 255, 255));
   
   vga.show();
 }
