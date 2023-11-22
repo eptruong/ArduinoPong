@@ -2,9 +2,9 @@
 #include <Ressources/Font6x8.h>
 
 //pin configuration
-const int redPin = 4;
+const int redPin = 15;
 const int greenPin = 2;
-const int bluePin = 15;
+const int bluePin = 4;
 const int hsyncPin = 14;
 const int vsyncPin = 12;
 
@@ -44,7 +44,6 @@ float read_distance(int sensor) {
       echo = ECHO4;
       break;
   }
-
   digitalWrite(trig, LOW); delayMicroseconds(2);
   digitalWrite(trig, HIGH); delayMicroseconds(10);
   digitalWrite(trig, LOW);
@@ -63,38 +62,24 @@ void draw_paddles(int paddle_coord[], boolean eliminated[]) {
   int paddle_width = 75;
   int paddle_height = 20;
 
-  // If player is eliminated, create a wall for the ball to bounce on
-  
   //Player 1
   if (!eliminated[0]) {
     vga.fillRect(120, paddle_coord, paddle_height, paddle_width, vga.RGB(255,255,255));
-  }
-  else {
-    vga.fillRect(80, 0, 20, 600, vga.RGB(255,255,255));
   }
   
   //Player 2
   if (!eliminated[1]) {
     vga.fillRect(660, paddle_coord, paddle_height, paddle_width, vga.RGB(255,255,255));
   }
-  else {
-    vga.fillRect(700, 0, 20, 600, vga.RGB(255,255,255));
-  }
   
   //Player 3
   if (!eliminated[2]) {
     vga.fillRect(paddle_coord, 20, paddle_height, paddle_width, vga.RGB(255,255,255));
   }
-  else {
-    vga.fillRect(100, 0, 600, 20, vga.RGB(255,255,255));
-  }
     
   //Player 4
   if (!eliminated[3]) {
     vga.fillRect(paddle_coord, 560, paddle_height, paddle_width, vga.RGB(255,255,255));
-  }
-  else {
-    vga.fillRect(100, 620, 600, 20, vga.RGB(255,255,255));
   }
     
 }
@@ -104,7 +89,6 @@ int smoothing_index[4] = {0};
 float distance_readings[4][num_index];
 
 float* average_smoothing(float player_dist[]) {
-
   for (int i = 0; i < 4; i++) {
     distance_readings[i][smoothing_index[i]++] = player_dist[i]; 
     smoothing_index[i] = (smoothing_index[i]) % numIndex;
@@ -121,12 +105,78 @@ float* average_smoothing(float player_dist[]) {
 }
 
 // Converts distance to coordinate on playing field
-int* convert_distance(float player_dist[]) {
-  //TODO Nathan
+//int* convert_distance(float player_dist[]) {
+//  //TODO Nathan
+//}
+
+
+int a = 20;
+int x = 100 + 
+int y = 300
+int delta = 2;
+void animate() {
+  // Ball touches left border
+  if (x<=100) {
+    if (eliminated[0] {
+      dx = delta;
+    }
+    else {
+      player_score[0]--;
+      new_round();
+    }
+  }
+
+  // Ball touches Player 1 paddle
+  if (x_range contains x + a && y_range contains y)
+  
+  // Ball touches right border
+  if(x+a>=700) {
+    if (eliminated[1]) {
+      dx=-delta;
+    }
+    else {
+      player_score[1]--;
+      new_round();
+    }
+  }
+
+
+
+  // Ball touches top border
+  if(y+a>=600) {
+    if (eliminated[2] {
+      dy = -delta; 
+    }
+    else {
+      player_score[2]--;
+      new_round();
+    }
+    
+  }
+  
+  // Ball touches bottom border
+  if(y<=0) {
+    if (eliminated[3]) {
+      dy = delta;
+    }
+    else {
+      player_score[3]--;
+      new_round();
+    }
+  }
+
+  x+=dx;  y+=dy;
+  vga.fillRect(x, y, 20, 20, vga.RGB(255, 255, 255));
+}
+
+void new_round() {
+  
 }
 
 boolean four_player = true; // Current state of gamemode
 boolean eliminated[4] = {0}; // Track who is eliminated (Players 3 & 4 eliminated if four_player = false)
+boolean started = false;
+int player_score[4] = {5};
 
 void setup()
 {
@@ -143,28 +193,31 @@ void setup()
     // Ask user if they are ready with the option to alternate between 2/4 player
     // Print on screen the current mode (2 or 4) 
     // Helpful functions you should use: vga.setCursor(x,y) and vga.print("text") 
-
+  
 }
-
 
 
 void loop()
 {
-  vga.clear(vga.RGB(0));
-  delay(10);
-  float player_dist[4]; // [0...n-1] where index i is Player i + 1
-  for (int i = 0; i < 4; i++) {
-    player_dist[i] = read_distance(i + 1);
+  if (!started) {
+    // Ask user 
+    
+  }
+  else {
+    vga.clear(vga.RGB(0));
+    delay(10);
+    //  float player_dist[4]; // [0...n-1] where index i is Player i + 1
+    //  for (int i = 0; i < 4; i++) {
+    //    player_dist[i] = read_distance(i + 1);
+    //  }
+    
+      
+    //  float smooth_player_dist[] = average_smoothing(player_dist);
+    //  draw_paddles(convert_distance(smooth_player_dist), eliminated);
+    //
+  
+      
+    vga.show();
   }
 
-  
-  float smooth_player_dist[] = average_smoothing(player_dist);
-  draw_paddles(convert_distance(smooth_player_dist), eliminated);
-
-  if (ball coord passes border)
-  else if (ball coord touches paddle)
-  
-  vga.fillCircle(x + 100, y + 20, 20, vga.RGB(255, 255, 255));
-  
-  vga.show();
 }
