@@ -171,7 +171,7 @@ void loop()
     player2_dist = read_distance(2);
     average_smoothing(player1_dist, player2_dist);
     draw_paddles(player1_dist, player2_dist);
-
+    animate();
     vga.show();
   }
 
